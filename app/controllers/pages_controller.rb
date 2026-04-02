@@ -3,4 +3,13 @@ class PagesController < ApplicationController
 
   def home
   end
+
+  def menu
+  end
+
+  def instructions
+  end
+
+  def profile
+  end
 end

@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_31_212252) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_01_221530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "levels", force: :cascade do |t|
+    t.integer "level_number"
+    t.integer "passing_hit"
+    t.integer "time_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "level_id", null: false
+    t.integer "hits"
+    t.integer "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["level_id"], name: "index_scores_on_level_id"
+    t.index ["user_id"], name: "index_scores_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +45,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_31_212252) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "scores", "levels"
+  add_foreign_key "scores", "users"
 end

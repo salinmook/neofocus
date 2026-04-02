@@ -1,0 +1,14 @@
+<div class="level-selection-container">
+  <h1>SELECT YOUR MISSION</h1>
+  <div class="levels-grid">
+    <% @levels.each do |level| %>
+      <div class="level-card">
+        <h3>LEVEL <%= level.level_number %></h3>
+        
+        <%= link_to "PLAY", level_path(level), class: "play-button" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>
+
