@@ -1,1 +1,27 @@
-<h1> YOU WON</h1>
+<h1>Level <%= @level.level_number %> Completed</h1>
+
+<p><%= @random_praise %></p>
+
+<p>Hits: <%= @hits %></p>
+<p>Score: <%= @score %></p>
+
+<hr>
+
+<!-- Character placeholder -->
+<div id="character-container">
+  <!-- image will come later -->
+</div>
+
+<!-- PLAY AGAIN -->
+<%= link_to "Play Again", level_path(@level) %>
+
+<!-- NEXT LEVEL LOGIC -->
+<% if @level.level_number == 1 %>
+  <%= link_to "Next Level", level_path(2) %>
+
+<% elsif @level.level_number == 2 %>
+  <%= link_to "Next Level", level_path(3) %>
+
+<% else %>
+  <%= link_to "My Profile", profile_path %>
+<% end %>
