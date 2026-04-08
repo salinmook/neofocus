@@ -1,17 +1,8 @@
-
-<div class="test-control">
-  <select onchange="startGame(Number(this.value))">
-    <option disabled selected>Menu</option>
-      <option value="1">Level 1 </option>
-      <option value="2">Level 2 </option>
-      <option value="3">Level 3 </option>
-  </select>
-</div>
-
-<div class="game-container">
+<div class="game-container"
+    data-level-id="<%= @level.id %>"
+    data-level-number="<%= @level.level_number %>">
   <div id="timer-container">
       <div id="timer-bar"></div>
   </div>
   <div id="game-canvas"></div>
- 
 </div>

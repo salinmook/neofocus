@@ -1,5 +1,3 @@
-// NOTE: This code is for image and timer bar testing purposes only.Feel free to delete
-
 // fix bug for repeating shapes
 const shapeMap = {
     circle: ['circle-red', 'circle-blue'],
@@ -14,7 +12,7 @@ let timeLeft = 50;
 let hits = 0;
 let currentLevel = 1;
 
-//shuffle 
+//shuffle
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -30,7 +28,7 @@ function getRandomClass(shapeType) {
 // render position shapes
 function getRandomPosition(width, height, existing) {
     const canvas = document.getElementById('game-canvas');
-    
+
     let x, y, tries = 0;
     do {
         x = Math.floor(Math.random() * (canvas.clientWidth - width));
@@ -58,7 +56,7 @@ function startGame(level) {
 //timer
 function updateTimer() {
     timeLeft--;
-    
+
     const timerBar = document.getElementById('timer-bar');
     if (timerBar) timerBar.style.width = (timeLeft / 50 * 100) + "%";
     if(timeLeft <= 0) {
@@ -75,7 +73,7 @@ function renderNewRound() {
     // take all shape types
     let shapeTypes = shuffle(Object.keys(shapeMap));
     //shuffle
-    
+
     //select non-repeat shape types (pair+odd)
     let selectedTypes = shapeTypes.slice(0, pairCount + 1);
     let displayList = [];
@@ -83,12 +81,12 @@ function renderNewRound() {
     //make pair
     for (let i = 0; i < pairCount; i++)
     {
-       
+
         const cls = getRandomClass(selectedTypes[i]);
         displayList.push(cls, cls);
     }
     //Odd
-    
+
     const oddShape = getRandomClass(selectedTypes[pairCount]);
     displayList.push(oddShape);
     //shuffle list
@@ -96,8 +94,8 @@ function renderNewRound() {
     //render
     displayList.forEach(shapeClass => {
         const div = document.createElement('div');
-        div.className = shapeClass + " game-shape"; 
-        
+        div.className = shapeClass + " game-shape";
+
         const width = div.offsetWidth || 65;
         const height = div.offsetHeight || 65;
         const pos = getRandomPosition(width, height, positions);
@@ -131,14 +129,40 @@ function renderNewRound() {
 }
 //check win condition
 function checkWinCondition() {
+    const levelId = document.querySelector('.game-container').dataset.levelId;
     const requireHits = (currentLevel === 1) ? 8 : 9;
-    if(hits >= requireHits) {
-        alert(`Great job! You hit ${hits} times`);
-    } else {
-        alert(`Try again! You hit ${hits} times`);
-    }
+    const totalScore = hits * 50
+
+    fetch(`/levels/${levelId}/scores`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        score: {
+          level_id: levelId,
+          hits: hits,
+          score: totalScore
+        }
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(hits >= requireHits) {
+          window.location.href = `/levels/${levelId}/won`;
+      } else {
+          window.location.href = `/levels/${levelId}/lost`;
+      }
+    })
 }
 
 window.startGame = startGame;
 window.renderNewRound = renderNewRound;
-window.updateTimer = updateTimer; 
+window.updateTimer = updateTimer;
+
+// Auto-start when game canvas is present
+document.addEventListener('turbo:load', function() {
+  const container = document.querySelector('.game-container');
+  if (container) {
+    const levelNumber = parseInt(container.dataset.levelNumber);
+    if (levelNumber) startGame(levelNumber);
+  }
+});
