@@ -1,0 +1,28 @@
+<div class="instructions-page">
+
+  <%# Header %>
+  <h1 class="instructions-title">How to Play</h1>
+  <p class="instructions-subtitle">Find the Lone Figure</p>
+
+  <%# Image placeholder %>
+  <div class="instructions-image-placeholder">
+    <p>[ Image coming soon ]</p>
+  </div>
+
+  <%# Steps %>
+  <ol class="instructions-steps">
+    <li><strong>SPOT</strong> — The unique shape.</li>
+    <li><strong>CLICK</strong> — To get points.</li>
+    <li><strong>COLLECT</strong> — See how many you can get!</li>
+  </ol>
+
+  <%# GOT IT button - behaves differently based on context %>
+  <% if params[:modal] == "true" %>
+    <%# Scenario 2: inside modal - just close it %>
+    <button class="btn-enter" data-bs-dismiss="modal">GOT IT!</button>
+  <% else %>
+    <%# Scenario 1: full page - redirect to menu %>
+    <%= link_to "GOT IT!", menu_path, class: "btn-enter" %>
+  <% end %>
+
+</div>
