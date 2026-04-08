@@ -1,4 +1,4 @@
-/* NOTE: This code is for image and timer bar testing purposes only.Feel free to delete
+// NOTE: This code is for image and timer bar testing purposes only.Feel free to delete
 
 // fix bug for repeating shapes
 const shapeMap = {
@@ -141,4 +141,4 @@ function checkWinCondition() {
 
 window.startGame = startGame;
 window.renderNewRound = renderNewRound;
-window.updateTimer = updateTimer; */
+window.updateTimer = updateTimer; 
