@@ -30,3 +30,12 @@ Level.create!(
 )
 
 puts "Finished! Created #{Level.count} levels"
+
+puts "Creating Admin User..."
+User.create!(
+    email: 'admin@neofocus.com',
+    password: 'password123',
+    first_name: 'Admin',
+    last_name: 'Neofocus'
+)
+puts "Finished! Seed data is ready."
