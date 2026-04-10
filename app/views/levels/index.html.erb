@@ -1,24 +1,28 @@
-<div class="container text-center py-5" style="background-color: #f8f9fa;
- min-height: 100vh;">
-  <h2 class="fw-bold mb-5" style="color: #8b5a2b;">SELECT YOUR LEVEL</h2>
+<div class="container text-center py-5" style="background-color: #f8f9fa; min-height: 100vh;">
+  <div class="top-nav">
+    <%= link_to menu_path, class: "home-btn" do %>
+      &#8962;
+    <% end %>
+  </div>
+  <h2 class="fw-bold my-4" style="color: #8b5a2b;">SELECT YOUR LEVEL</h2>
   <div class="row flex-column align_items-center g-4 w-100 m-0">
     <% @levels.each do |level| %>
       <div class="col-11 col-md-10 mx-auto">
       <%= link_to level_path(level), class: "text-decoration-none" do %>
-        
+
         <div class="card level-card border-0 shadow-sm rounded-4 d-flex flex-column align-items-center
-        justify-content-center p-4 w-100" style="height: 150px; background-color: 
-        <%= case level.level_number when 1 then '#FFB347' 
+        justify-content-center p-4 w-100" style="height: 150px; background-color:
+        <%= case level.level_number when 1 then '#FFB347'
         when 2 then '#F3E5AB' when 3 then '#A3B18A' else '#ddd' end %>;
           border-bottom: 6px solid rgba(0,0,0,0.1) !important;">
 
           <div class="fw-bold text-center <%= level.level_number == 2 ? 'text-dark' : 'text-white' %>"
-           style="font-size: 1.55rem; white-space: nowrap;">
-           LEVEL <%= level.level_number %>
-           </div>
-           <div class="mt-2 fw-bold <%= level.level_number == 2 ? 'text-muted' : 'text-white-50' %>" 
-           style="font-size: 1rem;">PLAY
-           </div>
+            style="font-size: 1.55rem; white-space: nowrap;">
+            LEVEL <%= level.level_number %>
+          </div>
+          <div class="mt-2 fw-bold <%= level.level_number == 2 ? 'text-muted' : 'text-white-50' %>"
+            style="font-size: 1rem;">PLAY
+          </div>
           </div>
         <% end %>
       </div>
@@ -26,22 +30,17 @@
   </div>
   </div>
 
-  
+
 
   <style>
-   .level-card {
-    transition: transform 0.1s ease-in-out;
-   }
-   .level-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-   }
-   .level-card:active {
-    transform: scale(0.95);
-   }
-
+    .level-card {
+      transition: transform 0.1s ease-in-out;
+    }
+    .level-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .level-card:active {
+      transform: scale(0.95);
+    }
   </style>
-
-        
-
-
