@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Neofocus</title>
+    <title>NeoFocus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -15,9 +15,140 @@
       <div class="phone-notch"></div>
       <div class="phone-container">
         <%= render "shared/flashes" %>
+
+        <%# Only show on /level#show %>
+        <% if controller_name == "levels" && action_name == "show" %>
+
+          <%# Menu icon button %>
+          <button class="menu-btn" data-bs-toggle="modal" data-bs-target="#globalMenu">
+            <i class="fa-solid fa-pause"></i>
+          </button>
+
+          <%# Global Menu Modal %>
+          <div class="modal fade" id="globalMenu" tabindex="-1" data-bs-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content menu-modal">
+                <button class="menu-modal-btn" data-bs-dismiss="modal">Continue</button>
+
+                <%# Restart confirmation %>
+                <button class="menu-modal-btn" id="restartBtn">Restart</button>
+
+                <button class="menu-modal-btn" data-bs-toggle="modal"
+                        data-bs-target="#instructionModal">Read instruction</button>
+
+                <%# Quit goes to /menu %>
+                <button class="menu-modal-btn menu-modal-btn--quit" id="quitBtn">Quit</button>
+              </div>
+            </div>
+          </div>
+
+          <%# Restart Confirmation Modal %>
+          <div class="modal fade" id="restartConfirm" tabindex="-1" data-bs-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content menu-modal">
+                <p class="menu-modal-title">Restart the level?</p>
+                <%= link_to "Yes", level_path(@level), class: "menu-modal-btn" %>
+                <button class="menu-modal-btn" id="noRestartBtn">No</button>
+              </div>
+            </div>
+          </div>
+
+          <%# Main Menu Confirmation Modal %>
+          <div class="modal fade" id="mainMenuConfirm" tabindex="-1" data-bs-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content menu-modal">
+                <p class="menu-modal-title">Go to Main Menu?</p>
+                <%= link_to "Yes", menu_path, class: "menu-modal-btn" %>
+                <button class="menu-modal-btn" id="noMainMenuBtn">No</button>
+              </div>
+            </div>
+          </div>
+
+          <%# Quit Confirmation Modal — redirects to /menu %>
+          <div class="modal fade" id="quitConfirm" tabindex="-1" data-bs-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content menu-modal">
+                <p class="menu-modal-title">Are you sure you want to quit? You will return to the Main Menu.</p>
+                <%= link_to "Yes", menu_path, class: "menu-modal-btn menu-modal-btn--quit" %>
+                <button class="menu-modal-btn" id="noQuitBtn">No</button>
+              </div>
+            </div>
+          </div>
+
+          <%# Instruction Modal — no redirect, just closes %>
+          <div class="modal fade" id="instructionModal" tabindex="-1" data-bs-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content p-3">
+                <%= render "pages/instructions_content", in_modal: true %>
+              </div>
+            </div>
+          </div>
+
+        <% end %>
+
         <%= yield %>
       </div>
       <div class="phone-button"></div>
     </div>
+
+    <script>
+      document.addEventListener('turbo:load', function() {
+
+        function showGlobalMenu() {
+          setTimeout(() => {
+            new bootstrap.Modal(document.getElementById('globalMenu')).show();
+          }, 300);
+        }
+
+        // Restart button
+        const restartBtn = document.getElementById('restartBtn');
+        if (restartBtn) {
+          restartBtn.addEventListener('click', function() {
+            bootstrap.Modal.getInstance(document.getElementById('globalMenu'))?.hide();
+            setTimeout(() => {
+              new bootstrap.Modal(document.getElementById('restartConfirm')).show();
+            }, 300);
+          });
+        }
+
+        // Quit button
+        const quitBtn = document.getElementById('quitBtn');
+        if (quitBtn) {
+          quitBtn.addEventListener('click', function() {
+            bootstrap.Modal.getInstance(document.getElementById('globalMenu'))?.hide();
+            setTimeout(() => {
+              new bootstrap.Modal(document.getElementById('quitConfirm')).show();
+            }, 300);
+          });
+        }
+
+        // "No" buttons — close confirmation and reopen global menu
+        ['noRestartBtn', 'noQuitBtn'].forEach(id => {
+          const btn = document.getElementById(id);
+          if (btn) {
+            btn.addEventListener('click', function() {
+              const openModal = document.querySelector('.modal.show');
+              if (openModal) bootstrap.Modal.getInstance(openModal)?.hide();
+              showGlobalMenu();
+            });
+          }
+        });
+
+        // Custom backdrop — darken only phone container
+        document.addEventListener('show.bs.modal', function() {
+          document.querySelector('.phone-container').classList.add('modal-open');
+        });
+
+        document.addEventListener('hide.bs.modal', function() {
+          // Small delay to avoid flicker between confirmation modals
+          setTimeout(() => {
+            if (!document.querySelector('.modal.show')) {
+              document.querySelector('.phone-container').classList.remove('modal-open');
+            }
+          }, 350);
+        });
+      });
+    </script>
+
   </body>
 </html>

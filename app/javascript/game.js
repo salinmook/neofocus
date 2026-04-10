@@ -166,3 +166,42 @@ document.addEventListener('turbo:load', function() {
     if (levelNumber) startGame(levelNumber);
   }
 });
+
+// Pause and resume timer for menu
+function pauseTimer() {
+  clearInterval(timer);
+  // Sync bar to exact timeLeft at moment of pause
+  const timerBar = document.getElementById('timer-bar');
+  if (timerBar) timerBar.style.width = (timeLeft / 50 * 100) + "%";
+}
+
+function resumeTimer() {
+  if (timeLeft > 0) {
+    clearInterval(timer);
+    // Immediately sync bar width before restarting interval
+    const timerBar = document.getElementById('timer-bar');
+    if (timerBar) timerBar.style.width = (timeLeft / 50 * 100) + "%";
+    timer = setInterval(updateTimer, 1000);
+  }
+}
+
+// freeze timer when menu opens, resume when closed
+document.addEventListener('turbo:load', function() {
+  // Pause on ANY modal opening
+  document.addEventListener('show.bs.modal', function() {
+    pauseTimer();
+  });
+
+  // Resume ONLY when ALL modals are closed and we're on game canvas
+  document.addEventListener('hide.bs.modal', function() {
+    setTimeout(() => {
+      const anyModalOpen = document.querySelector('.modal.show');
+      if (!anyModalOpen && document.querySelector('.game-container')) {
+        resumeTimer();
+      }
+    }, 350);  // small delay to let Bootstrap finish transition
+  });
+});
+
+window.pauseTimer = pauseTimer;
+window.resumeTimer = resumeTimer;
