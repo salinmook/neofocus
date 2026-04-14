@@ -1,10 +1,10 @@
-<div class="container text-center py-5" style="background-color: #f8f9fa; min-height: 100vh;">
+<div class="container text-center py-5" style="min-height: 100vh;">
   <div class="top-nav">
     <%= link_to menu_path, class: "home-btn" do %>
       &#8962;
     <% end %>
   </div>
-  <h2 class="fw-bold my-4" style="color: #8b5a2b;">SELECT YOUR LEVEL</h2>
+  <h2 class="fw-bold my-4 select-level-title">SELECT YOUR LEVEL</h2>
   <div class="row flex-column align_items-center g-4 w-100 m-0">
     <% @levels.each do |level| %>
       <div class="col-11 col-md-10 mx-auto">
@@ -12,7 +12,7 @@
 
         <div class="card level-card border-0 shadow-sm rounded-4 d-flex flex-column align-items-center
         justify-content-center p-4 w-100" style="height: 150px; background-color:
-        <%= case level.level_number when 1 then '#FFB347'
+        <%= case level.level_number when 1 then '#E9C8C6'
         when 2 then '#F3E5AB' when 3 then '#A3B18A' else '#ddd' end %>;
           border-bottom: 6px solid rgba(0,0,0,0.1) !important;">
 
@@ -42,5 +42,22 @@
     }
     .level-card:active {
       transform: scale(0.95);
+    }
+    .select-level-title {
+      display: inline-block;
+      padding: 10px 30px;
+      color: rgba(139, 90, 43, 1);
+      color: #64b4ea;
+     
+      font-size: 28px;
+      font-family: 'Fredoka', sans-serif;
+      letter-spacing: 1px;
+      border-radius: 50px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      border: 4px solid rgba(252, , 246, 186, 1) ;
+      background-color: linear-gradient(45deg, rgba(191, 149, 63, 1) 0% ,rgba(252, 246, 186, 1) 25% ,
+      rgba(179, 135, 40, 1) 50% ,   rgba(251,245, 183, 1) 75% ,  rgba(170, 119, 28, 1) 100% ) 
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2).
+      text-transform: uppercase;
     }
   </style>

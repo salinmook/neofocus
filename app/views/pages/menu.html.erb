@@ -1,17 +1,19 @@
-<div class="container d-flex flex-column align-items-center justify-content-center"
-style="min-height: 80vh;">
-    <h1 class="display-4 fw-bold mb-5">MENU</h1>
+<div class="menu-page phone-container">
+    <div class="menu-card-box">
+      <h1 class="menu-title" style="color: #64b4ea; font-family: 'Fredoka', sans-serif;
+    letter-spacing: 2px">MENU</h1>
 
-    <div class="d-grid gap-4 w-100" style="max-width: 350px;">
-        <%= link_to levels_path, class: "btn btn-primary btn-lg py-3 fw-bold shadow-sm" do %>
+    <div class="menu-buttons-list">
+        <%= link_to levels_path, class: "btn btn-custom-menu" do %>
             START
             <% end %>
-        <%= link_to instructions_path, class: "btn btn-secondary btn-lg py-3 fw-bold shadow-sm" do %>
+        <%= link_to instructions_path, class: "btn btn-custom-menu" do %>
             INSTRUCTION
             <% end %>
-        <%= link_to profile_path, class: "btn btn-info btn-lg py-3 fw-bold shadow-sm text-white" do %>
+        <%= link_to profile_path, class: "btn btn-custom-menu" do %>
             MY PROFILE
             <% end %>
+        </div>
     </div>
 </div>
 
