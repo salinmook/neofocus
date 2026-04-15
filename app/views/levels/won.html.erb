@@ -16,12 +16,9 @@
 <%= link_to "Play Again", level_path(@level) %>
 
 <!-- NEXT LEVEL LOGIC -->
-<% if @level.level_number == 1 %>
-  <%= link_to "Next Level", level_path(2) %>
-
-<% elsif @level.level_number == 2 %>
-  <%= link_to "Next Level", level_path(3) %>
-
+<% next_level = Level.find_by(level_number: @level.level_number + 1) %>
+<% if next_level %>
+  <%= link_to "Next Level", level_path(next_level) %>
 <% else %>
   <%= link_to "My Profile", profile_path %>
 <% end %>

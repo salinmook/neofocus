@@ -1,17 +1,40 @@
-<div class="container text-center py-5" style="min-height: 100vh;">
+<div class="container text-center py-4" style="min-height: 100vh;">
   <div class="top-nav">
     <%= link_to menu_path, class: "home-btn" do %>
       &#8962;
     <% end %>
   </div>
+  
   <h2 class="fw-bold my-4 select-level-title">SELECT YOUR LEVEL</h2>
-  <div class="row flex-column align_items-center g-4 w-100 m-0">
+  
+  <div class="row flex-column align_items-center g-2 px-3 m-0">
     <% @levels.each do |level| %>
-      <div class="col-11 col-md-10 mx-auto">
-      <%= link_to level_path(level), class: "text-decoration-none" do %>
+      <% is_locked = false %>
+      <% if level.level_number == 2 %>
+        <% lv1 = Level.find_by(level_number: 1) %>
+        <% lv1_score = current_user.scores.where(level_id: lv1&.id).maximum(:score) || 0 %>
+         <% is_locked = true if lv1_score < 400 %>
+      <% elsif level.level_number == 3 %>
+        <% lv2 = Level.find_by(level_number: 2) %>
+        <% lv2_score = current_user.scores.where(level_id: lv2&.id).maximum(:score)|| 0 %>
+        <% is_locked = true if lv2_score < 450 %>
+      <% end %>
+      <div class="col-10 mx-auto">
+      <% if is_locked %>
+      <div class="card level-card border-0 shadow-sm rounded-4 d-flex flex-column align-items-center
+        justify-content-center p-4 w-100" style="height: 120px;
+        background-color: #ddd; opacity: 0.8; cursor: not-allowed;
+        border-bottom: 6px solid #bbb !important;">
 
+        <div class="fw-bold text-center text-muted" style="font-size: 1.55rem; white-space: nowrap;">
+          LEVEL <%= level.level_number %> &#128274;
+          </div>
+          <div class="mt-2 fw-bold text-muted" style="font-size: 1rem;">LOCKED</div>
+      </div>
+      <% else %>
+      <%= link_to level_path(level), class: "text-decoration-none" do %>
         <div class="card level-card border-0 shadow-sm rounded-4 d-flex flex-column align-items-center
-        justify-content-center p-4 w-100" style="height: 150px; background-color:
+        justify-content-center p-4 w-100" style="height: 120px; background-color:
         <%= case level.level_number when 1 then '#E9C8C6'
         when 2 then '#F3E5AB' when 3 then '#A3B18A' else '#ddd' end %>;
           border-bottom: 6px solid rgba(0,0,0,0.1) !important;">
@@ -20,11 +43,12 @@
             style="font-size: 1.55rem; white-space: nowrap;">
             LEVEL <%= level.level_number %>
           </div>
-          <div class="mt-2 fw-bold <%= level.level_number == 2 ? 'text-muted' : 'text-white-50' %>"
+            <div class="mt-2 fw-bold <%= level.level_number == 2 ? 'text-muted' : 'text-white-50' %>"
             style="font-size: 1rem;">PLAY
-          </div>
+            </div>
           </div>
         <% end %>
+      <% end %>
       </div>
     <% end %>
   </div>
@@ -35,6 +59,7 @@
   <style>
     .level-card {
       transition: transform 0.1s ease-in-out;
+       margin-bottom: 15px;
     }
     .level-card:hover {
       transform: translateY(-5px) scale(1.02);
@@ -45,19 +70,19 @@
     }
     .select-level-title {
       display: inline-block;
-      padding: 10px 30px;
+      padding: 8px 20px;
       color: rgba(139, 90, 43, 1);
-      color: #64b4ea;
+      color: white;
      
-      font-size: 28px;
+      font-size: 22px;
       font-family: 'Fredoka', sans-serif;
       letter-spacing: 1px;
       border-radius: 50px;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-      border: 4px solid rgba(252, , 246, 186, 1) ;
-      background-color: linear-gradient(45deg, rgba(191, 149, 63, 1) 0% ,rgba(252, 246, 186, 1) 25% ,
-      rgba(179, 135, 40, 1) 50% ,   rgba(251,245, 183, 1) 75% ,  rgba(170, 119, 28, 1) 100% ) 
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2).
+      border: 4px solid rgba(252, 246, 186, 1) ;
+      background: linear-gradient(45deg, rgba(191, 149, 63, 1) 0% ,rgba(252, 246, 186, 1) 25% ,
+      rgba(179, 135, 40, 1) 50% ,   rgba(251,245, 183, 1) 75% ,  rgba(170, 119, 28, 1) 100% );
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       text-transform: uppercase;
     }
   </style>

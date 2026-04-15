@@ -1,9 +1,12 @@
 body {
   background: #f5f0e8;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0;
+  overflow: hidden;
 }
 
 .phone-wrapper {
@@ -12,6 +15,11 @@ body {
   padding: 20px 12px;
   box-shadow: 0 0 60px rgba(0,0,0,0.6);
   position: relative;
+  height: 100vh;
+  width: 378px;
+  aspect-ratio: 9 / 18.5;
+  display: flex;
+  flex-direction: column;
 }
 
 .phone-notch {
@@ -37,11 +45,13 @@ body {
 
 .phone-container {
   position: relative;
-  width: 390px;
-  height: 750px;
+  width: 100%;
+  height: 100%;
   background: white;
   overflow: hidden !important;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 
   .modal {
     position: absolute !important;
