@@ -7,26 +7,16 @@ class LevelsController < ApplicationController
     @level = Level.find(params[:id])
   end
 
- def won
+  def won
     @level = Level.find(params[:id])
 
     @score_record = current_user.scores
-                                .where(level: @level)
+                                .where(level_id: @level.id)
                                 .order(created_at: :desc)
                                 .first
 
     @hits = @score_record&.hits || 0
-    @score = @hits * 50
-
-
-    if @score_record.nil?
-      @score_record = Score.create!(
-        user: current_user,
-        level: @level,
-        hits: @hits,
-        score: @score
-      )
-    end
+    @score = @score_record&.score || (@hits * 50)
 
     @praises = [
       "Great job!",
