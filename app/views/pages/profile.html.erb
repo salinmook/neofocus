@@ -1,0 +1,73 @@
+<%= link_to menu_path, class: "home-btn" do %>
+  &#8962;
+<% end %>
+
+<h1>Your Profile</h1>
+
+<p>Name: <%= @user.name || "No name yet" %></p>
+<p>Avatar: <%= @user.avatar || "No avatar selected" %></p>
+
+<%= form_with url: profile_update_path, method: :patch, local: true do %>
+
+  <div>
+    <label>Name:</label>
+    <input type="text" name="user[name]" value="<%= @user.name %>">
+  </div>
+
+  <div>
+    <p>Choose your avatar:</p>
+
+    <% ["avatar1","avatar2","avatar3","avatar4","avatar5"].each do |a| %>
+
+    <label style="display: inline-block; text-align: center; margin: 10px; cursor: pointer;">
+
+      <input
+        type="radio"
+        name="user[avatar]"
+        value="<%= a %>"
+        <%= "checked" if @user.avatar == a %>
+        style="display: block; margin: 0 auto;"
+      >
+
+      <img
+        src="/assets/<%= a %>.png"
+        alt="<%= a %>"
+        style="width: 60px; height: 60px; border-radius: 50%; border: <%= @user.avatar == a ? '3px solid green' : '1px solid gray' %>;"
+      >
+
+      <div style="font-size: 12px;">
+        Avatar <%= a[-1] %>
+      </div>
+
+    </label>
+
+  <% end %>
+
+  </div>
+
+  <div style="margin-top: 20px;">
+    <button type="submit">Save</button>
+  </div>
+
+<% end %>
+
+<p>Total Score: <%= @total_score %></p>
+
+<hr>
+
+<% @levels.each do |level| %>
+  <div>
+    <h2>Level <%= level.level_number %></h2>
+
+    <% score = @user.high_score_for(level) %>
+    <p>Best Score: <%= score %></p>
+
+    <% if @user.level_unlocked?(level) %>
+      <%= link_to "Play", level_path(level) %>
+    <% else %>
+      🔒 Locked
+    <% end %>
+  </div>
+
+  <hr>
+<% end %>

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get "menu", to: "pages#menu"
   get "instructions", to: "pages#instructions"
   get "profile", to: "pages#profile"
+  patch "profile", to: "pages#update_profile", as: :profile_update
 
 resources :levels, only: [:index, :show] do
   member do
