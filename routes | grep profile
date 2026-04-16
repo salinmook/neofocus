@@ -1,0 +1,15 @@
+*   [33m2d8dad1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #21 from salinmook/update-UI-menu-page
+[31m|[m[32m\[m  
+[31m|[m * [33maf806b0[m update ui for menu and game selection page
+[31m|[m[31m/[m  
+*   [33m404e491[m Merge pull request #20 from salinmook/feature/global-menu-popup
+[33m|[m[34m\[m  
+[33m|[m * [33m7273494[m Implement global menu popup with pause/resume timer logic
+[33m|[m[33m/[m  
+*   [33m244c655[m Merge pull request #19 from salinmook/update-ui-game-selection-page
+[35m|[m[36m\[m  
+[35m|[m * [33m80d4dbf[m fix importmap game
+[35m|[m * [33mad501ae[m game.js in precompile list
+[35m|[m * [33m0f25820[m Fix syntax erb
+[35m|[m * [33m6600223[m Add precompiled game assets
+[35m|[m * [33m126695b[m complete seeds.rb with admin user
