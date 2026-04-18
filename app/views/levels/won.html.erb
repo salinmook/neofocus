@@ -1,24 +1,37 @@
-<h1>Level <%= @level.level_number %> Completed</h1>
-
-<p><%= @random_praise %></p>
-
-<p>Hits: <%= @hits %></p>
-<p>Score: <%= @score %></p>
-
-<hr>
-
-<!-- Character placeholder -->
-<div id="character-container">
-  <!-- image will come later -->
-</div>
-
-<!-- PLAY AGAIN -->
-<%= link_to "Play Again", level_path(@level) %>
-
-<!-- NEXT LEVEL LOGIC -->
-<% next_level = Level.find_by(level_number: @level.level_number + 1) %>
-<% if next_level %>
-  <%= link_to "Next Level", level_path(next_level) %>
-<% else %>
-  <%= link_to "My Profile", profile_path %>
+<div class="won-container">
+<%= link_to menu_path, class: "home-btn won-home-btn" do %>
+  &#8962;
 <% end %>
+<div class="confetti-layer"></div>
+<div class="won-header">
+<%= image_tag "won-avatar1.png", class: "won-avatar" %>
+      <h1 class="praise-text"><%= @random_praise %></h1>
+    </div>
+
+  <div class="won-card">
+    <div class="stat-row">  
+      <span class="stat-label">HITS:</span>
+      <span class="stat-value"><%= @hits %></span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">SCORE:</span>
+      <span class="stat-value"><%= @score %>Points</span> 
+    </div>
+      
+      <div class="action-buttons">
+        <%= link_to level_path(@level), class: "btn-blue" do %>
+          PLAY AGAIN <i class="fas fa-redo"></i>
+          <% end %>
+
+          <% next_level = Level.find_by(level_number: @level.level_number + 1) %>
+          <% if next_level %>
+          <%= link_to level_path(next_level), class: "btn-green" do %>
+            <span>NEXT LEVEL</span> <i class="fas fa-arrow-right"></i>
+            <% end %>
+            <% else %>
+              <%= link_to profile_path, class: "btn-green" do %>
+                <span>MY PROFILE</span><i class="fas fa-user"></i>
+              <% end %>
+            <% end %>
+      </div>
+</div>

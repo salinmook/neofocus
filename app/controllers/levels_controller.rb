@@ -20,7 +20,7 @@ class LevelsController < ApplicationController
 
     @praises = [
       "Great job!",
-      "Excellent Work!",
+      "Excellent!",
       "Amazing!",
       "You did it!",
       "Super Star!"
