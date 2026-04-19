@@ -35,5 +35,5 @@ function spawnGoldConfetti(){
 }
 
 //Calling method for confetti animation loading
-document.addEventListener("DOMContentLoaded", () => {spawnGoldConfetti();
+document.addEventListener("turbo:load", () => {spawnGoldConfetti();
 });
