@@ -32,12 +32,20 @@ class LevelsController < ApplicationController
   def lost
     @level = Level.find(params[:id])
 
+    @score_record = current_user.scores
+                                .where(level_id: @level.id)
+                                .order(created_at: :desc)
+                                .first
+
+    @hits = @score_record&.hits || 0
+    @score = @score_record&.score || (@hits * 50)
+
     @encouragement_messages = [
-      "Almost got it! Keep going",
-      "So close! Try one more time",
-      "Don't give up! You can do it.",
-      "Nice try! Let's go again",
-      "You're getting better! Try again"
+      "Almost there!",
+      "Keep it up!",
+      "Don't give up!",
+      "Nice effort!",
+      "Keep going!"
     ]
 
     @message = @encouragement_messages.sample
