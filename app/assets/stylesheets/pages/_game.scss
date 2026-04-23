@@ -9,7 +9,7 @@
     height: 710px;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: #f2f25b;
+    background-color: #E9C8C6;
     position: relative;
     padding: 5px;
     
@@ -28,7 +28,7 @@
     position: relative;
     overflow: hidden;
     margin: 0 auto;
-    //margin-top: 0px;
+    //margin-top: 42px !important;
     //margin-bottom: 10px;
     
 }
@@ -36,12 +36,13 @@
 //Main container for the countdown time bar
 #timer-container {
     position: absolute;
-    top: 5px;
+    top: 4px;
     left: calc(5px + 6px);
     right: calc(5px + 6px);
     width: auto;
-    height: 3px;
-    background-color: #888;
+    height: 4px;
+    border-radius: 3px;
+    background-color: #cbcbcb;
     z-index: 100;
     //border-bottom: 0px solid #888;
     

@@ -21,10 +21,10 @@ class PagesController < ApplicationController
   def update_profile
     success = current_user.update(profile_params)
 
-    Rails.logger.error("SUCCESS: #{success}")
-    Rails.logger.error(current_user.errors.full_messages)
+    Rails.logger.info("SUCCESS: #{success}")
+    Rails.logger.error(current_user.errors.full_messages) unless success
 
-    redirect_to profile_path
+    head :ok
   end
 
   def profile_params

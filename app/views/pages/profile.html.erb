@@ -1,73 +1,58 @@
+<div class="profile-page">
 <%= link_to menu_path, class: "home-btn" do %>
   &#8962;
 <% end %>
 
-<h1>Your Profile</h1>
+<h1 class="profile-title">Your Profile</h1>
+<%= form_with model: @user, url: profile_update_path, method: :patch, id: "profile-form",
+ local: false do |f| %>
 
-<p>Name: <%= @user.name || "No name yet" %></p>
-<p>Avatar: <%= @user.avatar || "No avatar selected" %></p>
-
-<%= form_with url: profile_update_path, method: :patch, local: true do %>
-
-  <div>
-    <label>Name:</label>
-    <input type="text" name="user[name]" value="<%= @user.name %>">
+<div class="profile-header">
+  <div class="avatar-wrapper">
+    <% initial_index = (1..5).to_a.find_index { |i| "profile-avatar-#{i}" ==
+  @user.avatar } || 0 %>
+    <div class="avatar-slider-container" data-initial-index="<%= initial_index %>">
+      <% (1..5).each do |i| %>
+        <% avatar_name = "profile-avatar-#{i}" 
+         is_checked = (@user.avatar == avatar_name) ||  (@user.avatar.blank? && i == 1) %>
+        <label class="avatar-item" for="avatar_<%= i %>">
+          <%= f.radio_button :avatar, avatar_name, 
+          id: "avatar_#{i}",
+          class: "auto-save-radio",
+          checked: is_checked %>
+          <img src="/assets/<%= avatar_name %>.png" class="avatar-option-img 
+          <%= 'active' if is_checked %>" alt="Avatar <%= i %>">
+        </label>
+        <% end %>
+    </div>
+    <button type="button" class="arrow right" onclick="nextSlide()">></button>
   </div>
+</div>
+  
 
-  <div>
-    <p>Choose your avatar:</p>
 
-    <% ["avatar1","avatar2","avatar3","avatar4","avatar5"].each do |a| %>
-
-    <label style="display: inline-block; text-align: center; margin: 10px; cursor: pointer;">
-
-      <input
-        type="radio"
-        name="user[avatar]"
-        value="<%= a %>"
-        <%= "checked" if @user.avatar == a %>
-        style="display: block; margin: 0 auto;"
-      >
-
-      <img
-        src="/assets/<%= a %>.png"
-        alt="<%= a %>"
-        style="width: 60px; height: 60px; border-radius: 50%; border: <%= @user.avatar == a ? '3px solid green' : '1px solid gray' %>;"
-      >
-
-      <div style="font-size: 12px;">
-        Avatar <%= a[-1] %>
-      </div>
-
-    </label>
-
-  <% end %>
-
-  </div>
-
-  <div style="margin-top: 20px;">
-    <button type="submit">Save</button>
-  </div>
-
-<% end %>
-
-<p>Total Score: <%= @total_score %></p>
-
-<hr>
-
-<% @levels.each do |level| %>
-  <div>
-    <h2>Level <%= level.level_number %></h2>
-
-    <% score = @user.high_score_for(level) %>
-    <p>Best Score: <%= score %></p>
-
-    <% if @user.level_unlocked?(level) %>
-      <%= link_to "Play", level_path(level) %>
-    <% else %>
-      🔒 Locked
+    <div class="name-input-section">
+      <%= f.text_field :name, class: "auto-save-input", placeholder: "Type your name here" %>
+    </div>
     <% end %>
-  </div>
+   
 
-  <hr>
+    <p class="total-score-text gold-total-box">TOTAL SCORE: <span><%= @total_score %></span></p>
+    <% @levels.each do |level| %>
+    <div class="level-card row-layout 
+    <%= 'is-locked' unless @user.level_unlocked?(level) %>">Level
+      <div class="level-number star-badge"><%= level.level_number %>
+      </div>
+      <div class="score-info-center">
+        <% score = @user.high_score_for(level) || 0 %>
+        <% if score > 0 %>
+          <div class="gold-score-box">BEST SCORE: <%= score %>
+          </div>
+        <% else %>
+          <p class="gold-score-box">No Score</p>
+        <% end %>
+      </div>
+     
+</div>
 <% end %>
+</div>

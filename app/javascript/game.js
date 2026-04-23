@@ -1,4 +1,4 @@
-// fix bug for repeating shapes
+
 const shapeMap = {
     circle: ['circle-red', 'circle-blue'],
     square: ['square-green', 'square-watermelon-pink'],
