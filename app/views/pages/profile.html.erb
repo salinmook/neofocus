@@ -20,8 +20,8 @@
           id: "avatar_#{i}",
           class: "auto-save-radio",
           checked: is_checked %>
-          <img src="/assets/<%= avatar_name %>.png" class="avatar-option-img 
-          <%= 'active' if is_checked %>" alt="Avatar <%= i %>">
+          <%= image_tag "#{avatar_name}.png", class: "avatar-option-img 
+          #{'active' if is_checked}", alt: "Avatar #{i}" %>
         </label>
         <% end %>
     </div>
