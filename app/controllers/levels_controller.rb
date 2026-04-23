@@ -31,6 +31,16 @@ class LevelsController < ApplicationController
 
   def lost
     @level = Level.find(params[:id])
+
+    @encouragement_messages = [
+      "Almost got it! Keep going",
+      "So close! Try one more time",
+      "Don't give up! You can do it.",
+      "Nice try! Let's go again",
+      "You're getting better! Try again"
+    ]
+
+    @message = @encouragement_messages.sample
   end
 
 end
