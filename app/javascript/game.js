@@ -1,4 +1,6 @@
-
+document.addEventListener("turbo:load", function(){
+  const container = document.querySelector('.game-container');
+  if(!container) return;
 const shapeMap = {
     circle: ['circle-red', 'circle-blue'],
     square: ['square-green', 'square-watermelon-pink'],
@@ -58,7 +60,9 @@ function updateTimer() {
     timeLeft--;
 
     const timerBar = document.getElementById('timer-bar');
-    if (timerBar) timerBar.style.width = (timeLeft / 50 * 100) + "%";
+    if (timerBar) {
+      timerBar.style.width = (timeLeft / 50 * 100) + "%";
+    }
     if(timeLeft <= 0) {
         clearInterval(timer);
         checkWinCondition();
@@ -131,7 +135,7 @@ function renderNewRound() {
 function checkWinCondition() {
     const levelId = document.querySelector('.game-container').dataset.levelId;
     const requireHits = (currentLevel === 1) ? 8 : 9;
-    const totalScore = hits * 50
+    const totalScore = hits * 50;
 
     fetch(`/levels/${levelId}/scores`, {
       method: 'POST',
@@ -145,54 +149,38 @@ function checkWinCondition() {
       })
     })
     .then(response => response.json())
-    .then(data => {
+    .then(() => {
       if(hits >= requireHits) {
           window.location.href = `/levels/${levelId}/won`;
       } else {
           window.location.href = `/levels/${levelId}/lost`;
       }
-    })
+    });
 }
-
-window.startGame = startGame;
-window.renderNewRound = renderNewRound;
-window.updateTimer = updateTimer;
-
-// Auto-start when game canvas is present
-document.addEventListener('turbo:load', function() {
-  const container = document.querySelector('.game-container');
-  if (container) {
-    const levelNumber = parseInt(container.dataset.levelNumber);
-    if (levelNumber) startGame(levelNumber);
-  }
-});
-
-// Pause and resume timer for menu
 function pauseTimer() {
   clearInterval(timer);
-  // Sync bar to exact timeLeft at moment of pause
-  const timerBar = document.getElementById('timer-bar');
-  if (timerBar) timerBar.style.width = (timeLeft / 50 * 100) + "%";
 }
-
 function resumeTimer() {
   if (timeLeft > 0) {
     clearInterval(timer);
-    // Immediately sync bar width before restarting interval
-    const timerBar = document.getElementById('timer-bar');
-    if (timerBar) timerBar.style.width = (timeLeft / 50 * 100) + "%";
     timer = setInterval(updateTimer, 1000);
   }
 }
 
-// freeze timer when menu opens, resume when closed
-document.addEventListener('turbo:load', function() {
-  // Pause on ANY modal opening
+window.startGame = startGame;
+window.pauseTimer = pauseTimer;
+window.resumeTimer = resumeTimer;
+
+
+  if (container) {
+    const levelNumber = parseInt(container.dataset.levelNumber);
+    if (levelNumber) startGame(levelNumber);
+  }
+
   document.addEventListener('show.bs.modal', function() {
     pauseTimer();
   });
 
-  // Resume ONLY when ALL modals are closed and we're on game canvas
   document.addEventListener('hide.bs.modal', function() {
     setTimeout(() => {
       const anyModalOpen = document.querySelector('.modal.show');
@@ -201,7 +189,6 @@ document.addEventListener('turbo:load', function() {
       }
     }, 350);  // small delay to let Bootstrap finish transition
   });
-});
 
-window.pauseTimer = pauseTimer;
-window.resumeTimer = resumeTimer;
+
+});
